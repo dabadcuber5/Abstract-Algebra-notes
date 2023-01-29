@@ -1,0 +1,182 @@
+\documentclass[12pt]{report}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amssymb,amsmath,graphicx}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{tikz, appendix}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning, decorations.pathmorphing, shadows,decorations.markings}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade,tikz}
+\usepackage{soul}
+\parindent=0pt
+\parskip=4pt
+\textwidth = 7in
+\oddsidemargin = -.3in
+\topmargin = -.8in
+\textheight = 9.4in
+\usepackage{empheq}
+\usepackage{fontenc}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{xfrac}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{physics}
+\parindent=0pt
+\parskip=16pt
+\usepgfplotslibrary{fillbetween}
+\newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
+\newcommand{\remarks}[1]{{\leavevmode\color{Aquamarine} #1}}
+\newcommand{\examples}[1]{{\leavevmode\color{Maroon} #1}}
+\newcommand{\definitions}[1]{{\leavevmode\color{blue} #1}}
+\newcommand{\recap}[1]{{\leavevmode\color{teal} #1}}
+\newcommand{\proof}[1]{{\leavevmode\color{ForestGreen} #1}}
+\newcommand{\Mod}[1]{\(\mathrm{mod}\#1)}
+\DeclareMathOperator{\rref}{rref}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\Span}{Span}	
+\DeclareMathOperator{\Nul}{Nul}
+\parindent=0pt
+\parskip=4pt
+\textwidth = 7in
+\oddsidemargin = -.3in
+\topmargin = -.8in
+\textheight = 9.4in
+\begin{document}
+	\begin{center} 
+		\textbf{Math 171  \hfill  \textsc{Day 3- $\mathbb{Z}/n\mathbb{Z}$, $(\mathbb{Z}/n\mathbb{Z})^\times$, and cancellation laws}\hfill Abstract Algebra}
+		\rule{\linewidth}{.01in}
+		\vskip 0.01in
+	\end{center}
+	\textsc{Professor Fukshansky}\\
+	\vskip 0.05in
+	\section{Recap}
+	\recap{
+		\textbf{Recap: }
+		\begin{itemize}
+			\item $\mathbb{Z}/n\mathbb{Z}$ is an abelian group under addition mod n.
+			\item As a set, $\mathbb{Z}/n\mathbb{Z}=\{0,1,\dots,n-1\}$
+			\item Define multiplication mod $n$ on $\mathbb{Z}/n\mathbb{Z}$ as $a\bigotimes_n b=(a\times b)\pmod n$
+			\item This is not really a group because of the 0 element in $\mathbb{Z}/n\mathbb{Z}$. 
+		\end{itemize}
+	}
+	\section{What is $\mathbb{Z}/n\mathbb{Z}$?}
+	\definitions{
+		\textbf{Definition: }We define \hl{$(\mathbb{Z}/n\mathbb{Z})^\times$} as $\{a\in \mathbb{Z}/n\mathbb{Z}: a\bigotimes_n b\equiv 1 \textbf{ for }b\in \mathbb{Z}/n\mathbb{Z}\}$ \\
+		\vskip 0.05in
+		\textbf{Theorem: } $\mathbb{Z}/n\mathbb{Z}$ is an abelian group under $\bigotimes_n$. 
+	}
+	\vskip 0.05in
+	\proof{
+		\textbf{Proof: }\\
+		The operation $\bigotimes_n$ is defined using the usual multiplication of integers. It is implied that this ``inherits" associativity and commutativity. Note that the identity element is 1 in here, because $1\in(\mathbb{Z}/n\mathbb{Z})^\times$, hence $(\mathbb{Z}/n\mathbb{Z})^\times\neq\emptyset$. We can also use the definition of an identity element to show that $\forall a\in (\mathbb{Z}/n\mathbb{Z})^\times, \exists b\in(\mathbb{Z}/n\mathbb{Z})^\times, a\bigotimes_n b=1$. This means that $b=a^{-1}$. Now, let us verify that $(\mathbb{Z}/n\mathbb{Z})$ is CLOSED under the operation $\bigotimes_n$. Suppose that $a,b\in(\mathbb{Z}/n\mathbb{Z})^\times\implies a^{-1}, b^{-1}\in(\mathbb{Z}/n\mathbb{Z})^\times$. Take: 
+		\begin{gather}
+			\setcounter{equation}{0}
+			(a\otimes_n b)\otimes_n(a^{-1}\otimes_n b^{-1})\\
+			(a\otimes_n a^{-1})\otimes_n(b\otimes_n b^{-1})\\
+			1\otimes_n 1\\
+			=1
+		\end{gather}
+		Therefore $a^{-1}\bigotimes_n b^{-1}$ is the inverse of $a\bigotimes_n b$ under $\bigotimes_n$. Therfore, $ab\in(\mathbb{Z}/n\mathbb{Z})^\times$
+	}
+	\vskip 0.1in
+	\definitions{
+		\textbf{Definition: }Two integers $a,b$ are \hl{relatively prime} if $gcd(a,b)=1$. 
+		\vskip 0.05in
+		\textbf{Theorem: } An element $a\in\mathbb{Z}/n\mathbb{Z}$ is in $(\mathbb{Z}/n\mathbb{Z})^\times$ iff $a$ and $n$ are relatively prime. 
+	}
+	\vskip 0.05in
+	\proof{
+		Suppose that $a$ and $n$ are relatively prime. This means that the $gcd(a,n)=1$. By  Euclid's division algorithm, $\exists x,y\in \mathbb{Z}$ such that $gcd(a,n)=1=ax+ny$. We have to prove two directions: 
+		\begin{enumerate}
+			\item $[\to]$\\
+			Suppose that $gcd(a,n)=1$. Let us prove that $a\in (\mathbb{Z}/n\mathbb{Z})^\times$. By Euclid's division algorithm, we have that $1=ax+ny$ for some $x,y\in \mathbb{Z}$. This means the following: 
+			\begin{equation*}
+				\setcounter{equation}{1}
+				\begin{aligned}
+				ax+ny&=&1\\
+				ax&=&1-ny\\
+				\implies a\otimes_n x&=&(ax\pmod n)&=&1
+				\end{aligned}
+			\end{equation*}
+			While $x$ may not be in $\mathbb{Z}/n\mathbb{Z}$, $\exists b\in\mathbb{Z}/n\mathbb{Z}$ such that $x\equiv b\pmod n$.  This means that: 
+			\begin{equation*}
+				ax\equiv ab\pmod n\\
+				n|ax-ab\\
+				n|a(x-b)
+			\end{equation*}
+			Therefore, because $b\in \mathbb{Z}/n\mathbb{Z}$,  $b=a^{-1}\in\mathbb{Z}/n\mathbb{Z}^\times$, and $a\in(\mathbb{Z}/n\mathbb{Z})^\times$. 
+			\item $[\leftarrow]$ \\
+			(This is on the homework \#1, 0.3 \#12 ) [copy and paste here later]
+		\end{enumerate}
+	}
+	\examples{
+		\textbf{Example: }\\ $(\mathbb{Z}/30\mathbb{Z})^\times=\{1,7,11,13,17,19,23,29\}$. Here we look for the numbers relatively prime to 30.
+		\vskip 0.05in
+		Now this begs the question of how many elements are in $(\mathbb{Z}/n\mathbb{Z})^\times$? 
+	}
+	\vskip 0.1in
+	\definitions{
+		\textbf{Definition: } let $n>1\in\mathbb{Z}$. The \hl{Euler totient function ($\varphi$-function)} is the number of elements from $1\leq a\leq n$ such that $gcd(a,b)=1$.
+		\vskip 0.1in
+		\textbf{Theorem: }Let $(G,*)$ be any group, then the identity and inverses in $G$ are unique. 
+	}
+	\vskip 0.05in
+	\proof{
+		\textbf{Proof: }\\
+		Suppose $\exists$ 2 identity elements $e,f\in G$. Then: $$e*f=f$$ because $e$ is an identity. However, we also know that $$e*f=e$$ because $f$ is also an identity. This means that $e=f$ so therefore there can only be one unique identity\\
+		\vskip 0.05in
+		Now, let $a\in G$, suppose that $b,c \in G$ such that $a* b=b* a=e, a* c=c* a=e$. (a has two inverses). We get the following now: 
+		\begin{gather*}
+			a*b=b*a=e\\
+			a*c=c*a=e\\
+			\begin{aligned}
+				c&=&c*e=c*(a*b)\\
+				c&=&(c*a)*b\\
+				c&=&e*b\\
+				c&=&b
+			\end{aligned}
+		\end{gather*}
+		We have proved that there exists only one inverse for every element in a group $G$. 
+	}
+	\section{Cancellation laws}
+	\definitions{
+	\textbf{Definition: }Let $(G,*)$ be a group. Let $a,b,c\in G$. Then: 
+	\begin{itemize}
+		\item If $a*b=a*c$, then $b=c$. 
+		\item If $b*a=c*a$, then $b=c$. 
+	\end{itemize}
+	}
+	\vskip 0.05in
+	\proof{
+		This is very easy to prove. Intuitively, we know that if $b=c\in G$, then $a*b=a*c, \; \forall a\in G$. However, we can easily prove the first law by multiplying $a^{-1}$ on the left side of the equation, and the second law by multiplying $a^{-1}$ on the right side to both sides of the equations. In other words: 
+		\begin{gather}
+			\setcounter{equation}{0}
+			a^{-1}*(a*b)=a^{-1}*(a*c)\\
+			b=c
+		\end{gather}
+		This proves the first statement and: 
+		\begin{gather}
+			\setcounter{equation}{0}
+			(b*a)*a^{-1}=(c*a)*a^{-1}\\
+			b=c
+		\end{gather}
+		This proves the second statement. 
+	}
+	\vskip 0.1in
+	\section{2 more important notions}
+	\definitions{
+	\textbf{Definition: } The \hl{order} of a group $G$ is the number of elements in $G$, denoted as $|G|$. If $|G|<\infty$,  then $G$ is a \hl{finite} group. Otherwise, if $|G|=\infty$, then $G$ is an \hl{infinite} group. 
+	\vskip 0.05in
+	If $x\in G$, then the \hl{order} of $x$, denoted as $|x|$, is the \underline{smallest positive integer} such that $x*x*x\dots *x=x^m=e$ where $|x|=m$. 
+	}
+	\vskip 0.1in
+	\examples{
+	\textbf{Example: }$\mathbb{Z}/7\mathbb{Z}=\{0,1,2,3,4,5,6\}$ under addition. If we want to find $3^4$, we would add 3 4 times. In other words, $3^4=12$.
+	\vskip 0.05in
+	In addition, $3^7=0$ in the group. We have that $3^7$ is 21, which is divisible by 7.   
+	}
+	
+\end{document}
